@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:great_places_app/core/hive_helper.dart';
 import 'package:great_places_app/models/place.dart';
 
 class GreatPlaces with ChangeNotifier {
@@ -13,7 +14,7 @@ class GreatPlaces with ChangeNotifier {
   void addPlace(
     String pickedTitle,
     File pickedImage,
-  ) {
+  ) async {
     final newPlace = Place(
       id: DateTime.now().toString(),
       image: pickedImage,
@@ -22,6 +23,7 @@ class GreatPlaces with ChangeNotifier {
     );
 
     _items.add(newPlace);
+    (await HiveHelper.getDB<Place>("user_place")).add(newPlace);
     notifyListeners();
   }
 }
