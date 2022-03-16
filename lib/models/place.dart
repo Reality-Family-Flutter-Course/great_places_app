@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:hive/hive.dart';
 
+part 'place.g.dart';
+
 // for building adapters use - flutter packages pub run build_runner build
 
 @HiveType(typeId: 1)
