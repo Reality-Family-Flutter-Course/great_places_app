@@ -27,7 +27,7 @@ class GreatPlaces with ChangeNotifier {
     notifyListeners();
   }
 
-  void fetchAndSetData() async {
+  Future<void> fetchAndSetData() async {
     var db = await HiveHelper.getDB<Place>("user_place");
     _items = db.values.toList();
   }

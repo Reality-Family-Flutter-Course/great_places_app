@@ -22,29 +22,39 @@ class PlacesListScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: Consumer<GreatPlaces>(
-          child: const Center(
-            child: Text(
-              "Не найдено ни одного места.\nСамое время добавить новое!",
-              textAlign: TextAlign.center,
-            ),
-          ),
-          builder: (context, greatPlaces, child) => greatPlaces.items.isEmpty
-              ? child!
-              : ListView.builder(
-                  itemCount: greatPlaces.items.length,
-                  itemBuilder: (cxt, i) => ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: FileImage(
-                        greatPlaces.items[i].image,
+        body: FutureBuilder(
+            future: Provider.of<GreatPlaces>(context, listen: false)
+                .fetchAndSetData(),
+            builder: (context, snapshot) {
+              return snapshot.connectionState == ConnectionState.waiting
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Consumer<GreatPlaces>(
+                      child: const Center(
+                        child: Text(
+                          "Не найдено ни одного места.\nСамое время добавить новое!",
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    ),
-                    title: Text(greatPlaces.items[i].title),
-                    onTap: () {
-                      // Go to detail page...
-                    },
-                  ),
-                ),
-        ));
+                      builder: (context, greatPlaces, child) =>
+                          greatPlaces.items.isEmpty
+                              ? child!
+                              : ListView.builder(
+                                  itemCount: greatPlaces.items.length,
+                                  itemBuilder: (cxt, i) => ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundImage: FileImage(
+                                        greatPlaces.items[i].image,
+                                      ),
+                                    ),
+                                    title: Text(greatPlaces.items[i].title),
+                                    onTap: () {
+                                      // Go to detail page...
+                                    },
+                                  ),
+                                ),
+                    );
+            }));
   }
 }
