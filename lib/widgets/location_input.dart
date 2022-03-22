@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:great_places_app/core/location_helper.dart';
+import 'package:great_places_app/screens/map_screen.dart';
 import 'package:location/location.dart';
 
 class LocationInput extends StatefulWidget {
@@ -65,7 +66,14 @@ class _LocationInputState extends State<LocationInput> {
             ),
             Expanded(
               child: TextButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MapScreen(),
+                    ),
+                  );
+                },
                 icon: const Icon(Icons.map),
                 label: const Text(
                   "Выбрать на карте",
