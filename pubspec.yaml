@@ -38,6 +38,7 @@ dependencies:
   hive_flutter: ^1.1.0
   location: ^4.3.0
   yandex_mapkit: ^2.0.2
+  http: ^0.13.4
 
   permission_handler: ^8.3.0
 
