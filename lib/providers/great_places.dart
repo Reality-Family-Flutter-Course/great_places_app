@@ -32,6 +32,7 @@ class GreatPlaces with ChangeNotifier {
   Future<void> fetchAndSetData() async {
     var db = await HiveHelper.getDB<Place>("user_place");
     _items = db.values.toList();
+    notifyListeners();
   }
 
   Future<Place?> getPlace(String id) async {
@@ -39,6 +40,8 @@ class GreatPlaces with ChangeNotifier {
   }
 
   Future<void> deletePlace(String id) async {
+    (await HiveHelper.getDB<Place>("user_place")).get(id)!.image.delete();
     (await HiveHelper.getDB<Place>("user_place")).delete(id);
+    await fetchAndSetData();
   }
 }

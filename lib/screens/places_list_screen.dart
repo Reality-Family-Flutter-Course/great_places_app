@@ -49,6 +49,16 @@ class PlacesListScreen extends StatelessWidget {
                                     greatPlaces.items[i].image,
                                   ),
                                 ),
+                                trailing: IconButton(
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () {
+                                    greatPlaces
+                                        .deletePlace(greatPlaces.items[i].id);
+                                  },
+                                ),
                                 title: Text(greatPlaces.items[i].title),
                                 subtitle: greatPlaces.items[i].location != null
                                     ? Text(
