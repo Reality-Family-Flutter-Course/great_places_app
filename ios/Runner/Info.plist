@@ -26,6 +26,8 @@
 	<string>Необходимо сделать фото</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Необходимо выгрузать фото</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Необходимо получить ваше местоположение</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
