@@ -17,6 +17,8 @@ class _MapScreenState extends State<MapScreen> {
   final MapObjectId userPlacemarkId = MapObjectId('userPoint');
   final MapObjectId selectedPlacemarkId = MapObjectId('selectedPoint');
 
+  Point? _selectedPoint;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,13 +26,13 @@ class _MapScreenState extends State<MapScreen> {
         title: const Text("Ваша карта"),
         actions: [
           IconButton(
-            onPressed: (_mapObject
-                    .any((placemark) => placemark.mapId == selectedPlacemarkId))
+            onPressed: (_mapObject.any((placemark) =>
+                        placemark.mapId == selectedPlacemarkId) &&
+                    _selectedPoint != null)
                 ? () {
                     Navigator.pop(
                       context,
-                      _mapObject.firstWhere((placemark) =>
-                          placemark.mapId == selectedPlacemarkId),
+                      _selectedPoint,
                     );
                   }
                 : null,
@@ -48,6 +50,7 @@ class _MapScreenState extends State<MapScreen> {
             },
             onMapTap: (point) {
               setState(() {
+                _selectedPoint = point;
                 _mapObject.add(
                   Placemark(
                     mapId: selectedPlacemarkId,
