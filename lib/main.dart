@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:great_places_app/models/place.dart';
 import 'package:great_places_app/providers/great_places.dart';
 import 'package:great_places_app/screens/add_place_screen.dart';
 import 'package:great_places_app/screens/places_list_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(PlaceAdapter());
+  Hive.registerAdapter(PlaceLocationAdapter());
   runApp(const MyApp());
 }
 
