@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:great_places_app/providers/great_places.dart';
 import 'package:great_places_app/screens/add_place_screen.dart';
+import 'package:great_places_app/screens/place_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 class PlacesListScreen extends StatelessWidget {
@@ -37,23 +38,33 @@ class PlacesListScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      builder: (context, greatPlaces, child) =>
-                          greatPlaces.items.isEmpty
-                              ? child!
-                              : ListView.builder(
-                                  itemCount: greatPlaces.items.length,
-                                  itemBuilder: (cxt, i) => ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundImage: FileImage(
-                                        greatPlaces.items[i].image,
-                                      ),
-                                    ),
-                                    title: Text(greatPlaces.items[i].title),
-                                    onTap: () {
-                                      // Go to detail page...
-                                    },
+                      builder: (context, greatPlaces, child) => greatPlaces
+                              .items.isEmpty
+                          ? child!
+                          : ListView.builder(
+                              itemCount: greatPlaces.items.length,
+                              itemBuilder: (cxt, i) => ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage: FileImage(
+                                    greatPlaces.items[i].image,
                                   ),
                                 ),
+                                title: Text(greatPlaces.items[i].title),
+                                subtitle: greatPlaces.items[i].location != null
+                                    ? Text(
+                                        greatPlaces.items[i].location!.address!)
+                                    : null,
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => PlaceDetailScreen(
+                                        id: greatPlaces.items[i].id,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                     );
             }));
   }
