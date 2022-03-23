@@ -14,21 +14,34 @@ class GreatPlaces with ChangeNotifier {
   void addPlace(
     String pickedTitle,
     File pickedImage,
+    PlaceLocation pickedLocation,
   ) async {
     final newPlace = Place(
       id: DateTime.now().toString(),
       image: pickedImage,
       title: pickedTitle,
-      location: null,
+      location: pickedLocation,
     );
 
     _items.add(newPlace);
-    (await HiveHelper.getDB<Place>("user_place")).add(newPlace);
+    (await HiveHelper.getDB<Place>("user_place"))
+        .put(newPlace.id.toString(), newPlace);
     notifyListeners();
   }
 
   Future<void> fetchAndSetData() async {
     var db = await HiveHelper.getDB<Place>("user_place");
     _items = db.values.toList();
+    notifyListeners();
+  }
+
+  Future<Place?> getPlace(String id) async {
+    return (await HiveHelper.getDB<Place>("user_place")).get(id);
+  }
+
+  Future<void> deletePlace(String id) async {
+    (await HiveHelper.getDB<Place>("user_place")).get(id)!.image.delete();
+    (await HiveHelper.getDB<Place>("user_place")).delete(id);
+    await fetchAndSetData();
   }
 }

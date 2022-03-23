@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:great_places_app/models/place.dart';
 import 'package:great_places_app/providers/great_places.dart';
 import 'package:great_places_app/widgets/image_input.dart';
+import 'package:great_places_app/widgets/location_input.dart';
 import 'package:provider/provider.dart';
 
 class AddPlaceScreen extends StatefulWidget {
@@ -17,9 +19,14 @@ class AddPlaceScreen extends StatefulWidget {
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
   final _titleController = TextEditingController();
   File? _pickedImage;
+  PlaceLocation? _pickedPlace;
 
   void _selectImage(File pickedImage) {
     _pickedImage = pickedImage;
+  }
+
+  void _selectPlace(PlaceLocation pickedPlace) {
+    _pickedPlace = pickedPlace;
   }
 
   void _savePlace() {
@@ -29,7 +36,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
     }
 
     Provider.of<GreatPlaces>(context, listen: false)
-        .addPlace(_titleController.text, _pickedImage!);
+        .addPlace(_titleController.text, _pickedImage!, _pickedPlace!);
 
     Navigator.of(context).pop();
   }
@@ -38,7 +45,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Добавить место"),
+        title: const Text("Добавить место"),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -58,6 +65,10 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                     ),
                     ImageInput(
                       onSelectImage: _selectImage,
+                    ),
+                    const SizedBox(height: 10),
+                    LocationInput(
+                      callBack: _selectPlace,
                     ),
                   ],
                 ),
